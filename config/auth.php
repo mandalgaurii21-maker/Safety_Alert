@@ -1,8 +1,6 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
 function isLoggedIn()
 {
@@ -17,12 +15,28 @@ function requireLogin()
     }
 }
 
-function requireRole($role)
+function isAdmin()
 {
-    requireLogin();
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
 
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== $role) {
-        header("Location: ../index.php");
+function requireAdmin()
+{
+    if (!isLoggedIn() || !isAdmin()) {
+        header("Location: ../user/login.php");
+        exit();
+    }
+}
+
+function isPolice()
+{
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'police';
+}
+
+function requirePolice()
+{
+    if (!isLoggedIn() || !isPolice()) {
+        header("Location: ../user/login.php");
         exit();
     }
 }

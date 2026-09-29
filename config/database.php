@@ -5,11 +5,12 @@ $username = "root";
 $password = "";
 $database = "safety_alert";
 
-$conn = mysqli_connect($host, $username, $password, $database);
+$conn = new mysqli($host, $username, $password, $database);
 
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
 }
 
-mysqli_set_charset($conn, "utf8mb4");
+$conn->set_charset("utf8mb4");
+
 ?>
